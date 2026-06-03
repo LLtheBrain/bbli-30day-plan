@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BBLI Inc. — 30-Day Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #fafafa; color: #1a1a1a; }
+.dot-bg { background-image: radial-gradient(circle, #ddd 1px, transparent 1px); background-size: 24px 24px; }
+
+/* NAV */
+.nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-bottom: 2px solid #6B4C9A; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.nav-title { font-family: 'Caveat', cursive; font-size: 22px; color: #6B4C9A; font-weight: 700; }
+.nav-links { display: flex; gap: 6px; flex-wrap: wrap; }
+.nav-links a { font-size: 11px; padding: 4px 10px; border-radius: 20px; text-decoration: none; color: #555; background: #f0f0f0; transition: all 0.2s; }
+.nav-links a:hover { background: #6B4C9A; color: white; }
+
+/* HERO */
+.hero { text-align: center; padding: 60px 24px 40px; }
+.hero h1 { font-family: 'Caveat', cursive; font-size: 48px; color: #6B4C9A; margin-bottom: 8px; }
+.hero .subtitle { font-size: 18px; color: #666; margin-bottom: 16px; }
+.hero .stats { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; margin-top: 24px; }
+.stat-box { background: white; border-radius: 12px; padding: 16px 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); text-align: center; min-width: 120px; }
+.stat-num { font-size: 32px; font-weight: 700; color: #6B4C9A; }
+.stat-label { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* WEEK PRIORITY */
+.week-bar { display: flex; gap: 12px; margin: 32px auto; max-width: 1100px; padding: 0 24px; flex-wrap: wrap; }
+.week-card { flex: 1; min-width: 200px; background: white; border-radius: 12px; padding: 16px 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.week-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+.week-card p { font-size: 13px; color: #666; line-height: 1.6; }
+.week-card.w1 { border-top: 4px solid #C62828; }
+.week-card.w2 { border-top: 4px solid #E65100; }
+.week-card.w34 { border-top: 4px solid #1565C0; }
+
+/* SECTION */
+.section { margin: 48px auto; max-width: 1100px; padding: 0 24px; }
+.section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 3px solid; }
+.section-header h2 { font-family: 'Caveat', cursive; font-size: 32px; }
+.section-header .badge { font-size: 11px; padding: 4px 12px; border-radius: 20px; color: white; font-weight: 600; }
+
+/* TODO CARD */
+.todo-card { background: white; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-bottom: 20px; overflow: hidden; }
+.todo-header { padding: 20px 24px 16px; display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 8px; cursor: pointer; }
+.todo-header:hover { background: #fafafa; }
+.todo-num { font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; line-height: 1; }
+.todo-info { flex: 1; min-width: 200px; }
+.todo-title { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+.todo-meta { font-size: 12px; color: #888; }
+.todo-tags { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.tag { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+.tag-week { background: #f0f0f0; color: #555; }
+.tag-role { background: #EDE7F6; color: #6B4C9A; }
+.tag-count { background: #E3F2FD; color: #1565C0; }
+.toggle-icon { font-size: 20px; color: #999; transition: transform 0.3s; padding: 4px 8px; }
+.todo-card.open .toggle-icon { transform: rotate(180deg); }
+
+/* SUBTASKS */
+.subtasks { display: none; padding: 0 24px 20px; }
+.todo-card.open .subtasks { display: block; }
+.subtask-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.subtask-table th { text-align: left; padding: 8px 12px; background: #f5f3ff; color: #6B4C9A; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+.subtask-table td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
+.subtask-table tr:last-child td { border-bottom: none; }
+.subtask-table tr:hover td { background: #fafafa; }
+.subtask-num { color: #6B4C9A; font-weight: 600; width: 36px; }
+.process-note { margin-top: 12px; padding: 12px 16px; background: #FFF3E0; border-radius: 8px; border-left: 4px solid #E65100; font-size: 12px; color: #555; }
+.process-note strong { color: #E65100; }
+
+/* TRACK COLORS */
+.track-a .section-header { border-color: #6B4C9A; }
+.track-a .section-header h2 { color: #6B4C9A; }
+.track-a .section-header .badge { background: #6B4C9A; }
+.track-a .todo-num { color: #6B4C9A; }
+.track-a .todo-card { border-left: 5px solid #6B4C9A; }
+
+.track-b .section-header { border-color: #2E7D32; }
+.track-b .section-header h2 { color: #2E7D32; }
+.track-b .section-header .badge { background: #2E7D32; }
+.track-b .todo-num { color: #2E7D32; }
+.track-b .todo-card { border-left: 5px solid #2E7D32; }
+.track-b .subtask-table th { background: #E8F5E9; color: #2E7D32; }
+
+.track-c .section-header { border-color: #1565C0; }
+.track-c .section-header h2 { color: #1565C0; }
+.track-c .section-header .badge { background: #1565C0; }
+.track-c .todo-num { color: #1565C0; }
+.track-c .todo-card { border-left: 5px solid #1565C0; }
+.track-c .subtask-table th { background: #E3F2FD; color: #1565C0; }
+
+.track-d .section-header { border-color: #E65100; }
+.track-d .section-header h2 { color: #E65100; }
+.track-d .section-header .badge { background: #E65100; }
+.track-d .todo-num { color: #E65100; }
+.track-d .todo-card { border-left: 5px solid #E65100; }
+.track-d .subtask-table th { background: #FFF3E0; color: #E65100; }
+
+/* BIG PICTURE GRID */
+.bp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 48px; }
+.bp-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); position: relative; transition: transform 0.2s; }
+.bp-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+.bp-card .num { font-family: 'Caveat', cursive; font-size: 36px; font-weight: 700; position: absolute; top: 12px; right: 16px; opacity: 0.15; }
+.bp-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; padding-right: 30px; }
+.bp-card p { font-size: 12px; color: #888; line-height: 1.5; }
+.bp-card .bp-tags { margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap; }
+
+.bp-a { border-left: 5px solid #6B4C9A; }
+.bp-a .num { color: #6B4C9A; }
+.bp-a h3 { color: #6B4C9A; }
+
+.bp-b { border-left: 5px solid #2E7D32; }
+.bp-b .num { color: #2E7D32; }
+.bp-b h3 { color: #2E7D32; }
+
+.bp-c { border-left: 5px solid #1565C0; }
+.bp-c .num { color: #1565C0; }
+.bp-c h3 { color: #1565C0; }
+
+.bp-d { border-left: 5px solid #E65100; }
+.bp-d .num { color: #E65100; }
+.bp-d h3 { color: #E65100; }
+
+/* CHECKBOX */
+.subtask-check { width: 36px; text-align: center; }
+.subtask-check input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-color: #6B4C9A; }
+.track-b .subtask-check input[type="checkbox"] { accent-color: #2E7D32; }
+.track-c .subtask-check input[type="checkbox"] { accent-color: #1565C0; }
+.track-d .subtask-check input[type="checkbox"] { accent-color: #E65100; }
+tr.done td { opacity: 0.45; text-decoration: line-through; text-decoration-color: #ccc; }
+tr.done td.subtask-check { text-decoration: none; opacity: 1; }
+
+/* PROGRESS */
+.progress-wrap { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.progress-bar { flex: 1; height: 6px; background: #eee; border-radius: 3px; overflow: hidden; max-width: 160px; }
+.progress-fill { height: 100%; border-radius: 3px; transition: width 0.3s; background: #6B4C9A; }
+.track-b .progress-fill { background: #2E7D32; }
+.track-c .progress-fill { background: #1565C0; }
+.track-d .progress-fill { background: #E65100; }
+.progress-text { font-size: 11px; color: #999; font-weight: 500; white-space: nowrap; }
+.todo-card.all-done { opacity: 0.6; }
+.todo-card.all-done .todo-title { text-decoration: line-through; text-decoration-color: #ccc; }
+
+/* ASSIGN */
+.subtask-assign { width: auto; min-width: 52px; text-align: center; }
+.assign-wrap { display: inline-flex; align-items: center; gap: 3px; cursor: pointer; }
+.assign-dot { width: 28px; height: 28px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: white; transition: all 0.15s; border: 2px solid transparent; letter-spacing: 0.5px; flex-shrink: 0; }
+.assign-dot:hover { transform: scale(1.15); }
+.assign-dot.unassigned { background: #e0e0e0; color: #999; border: 2px dashed #ccc; font-size: 14px; width: 30px; height: 30px; }
+.assign-dot.unassigned:hover { border-color: #999; }
+.assign-dot.add-more { background: none; border: 2px dashed #ccc; color: #bbb; font-size: 14px; width: 24px; height: 24px; }
+.assign-dot.add-more:hover { border-color: #999; color: #999; }
+
+/* TEAM LEGEND */
+.team-legend { max-width: 1100px; margin: 32px auto 0; padding: 0 24px; }
+.team-legend-inner { background: white; border-radius: 16px; padding: 20px 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+.team-legend-inner h3 { font-family: 'Caveat', cursive; font-size: 24px; color: #6B4C9A; margin-bottom: 14px; }
+.team-grid { display: flex; gap: 16px; flex-wrap: wrap; }
+.team-member { display: flex; align-items: center; gap: 8px; padding: 6px 14px; background: #fafafa; border-radius: 10px; }
+.team-member .dot { width: 28px; height: 28px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: white; }
+.team-member .name { font-size: 13px; color: #444; font-weight: 500; }
+
+/* RESET BTN */
+.reset-btn { font-size: 11px; padding: 4px 12px; border-radius: 20px; border: 1px solid #ddd; background: white; color: #999; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s; }
+.reset-btn:hover { background: #C62828; color: white; border-color: #C62828; }
+
+/* FOOTER */
+.footer { text-align: center; padding: 40px 24px; color: #aaa; font-size: 12px; border-top: 1px solid #eee; margin-top: 60px; }
+
+/* EXPAND ALL */
+.expand-bar { text-align: center; margin: 12px 0 24px; }
+.expand-btn { background: none; border: 1px solid #ddd; padding: 8px 20px; border-radius: 8px; font-size: 13px; color: #666; cursor: pointer; font-family: 'Inter', sans-serif; }
+.expand-btn:hover { background: #f5f5f5; }
+
+@media (max-width: 600px) {
+  .hero h1 { font-size: 32px; }
+  .hero .stats { gap: 12px; }
+  .stat-box { min-width: 80px; padding: 12px 16px; }
+  .stat-num { font-size: 24px; }
+  .todo-header { padding: 16px; }
+  .subtasks { padding: 0 16px 16px; }
+  .nav-links { display: none; }
+}
+</style>
+</head>
+<body class="dot-bg">
+
+<nav class="nav">
+  <div class="nav-title">BBLI Inc. | 30-Day Plan</div>
+  <div class="nav-links">
+    <a href="#big-picture">Big Picture</a>
+    <a href="#track-a">Track A · Rook</a>
+    <a href="#track-b">Track B · Sable</a>
+    <a href="#track-c">Track C · Sales</a>
+    <a href="#track-d">Track D · Ops</a>
+  </div>
+  <span id="sync-status" style="font-size:11px;color:#4CAF50;font-weight:600;">⏳ Loading...</span>
+  <button class="reset-btn" onclick="resetProgress()">Reset Progress</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>30-Day Execution Plan</h1>
+  <div class="subtitle">June 1 - 30, 2026 | BBLI Inc.</div>
+  <div class="stats">
+    <div class="stat-box"><div class="stat-num">12</div><div class="stat-label">Big Picture To-Dos</div></div>
+    <div class="stat-box"><div class="stat-num">77</div><div class="stat-label">Subtasks</div></div>
+    <div class="stat-box"><div class="stat-num">4</div><div class="stat-label">Tracks</div></div>
+    <div class="stat-box"><div class="stat-num">6</div><div class="stat-label">Roles</div></div>
+    <div class="stat-box" style="border: 2px solid #6B4C9A;"><div class="stat-num" id="pct-done">0%</div><div class="stat-label">Complete</div></div>
+  </div>
+</div>
+
+<!-- WEEK PRIORITY -->
+<div class="week-bar">
+  <div class="week-card w1">
+    <h3>Week 1: Foundation</h3>
+    <p>GG website, before data, <strong>Sable:</strong> family brand story launches, Notion setup, roles assigned, check-ins started</p>
+  </div>
+  <div class="week-card w2">
+    <h3>Week 2: Systems Live</h3>
+    <p>BBLI Catering OS live, Zapier bridge tested, Content Engine configured, <strong>Sable:</strong> BTS content capturing + brand spotlights rolling</p>
+  </div>
+  <div class="week-card w34">
+    <h3>Weeks 3-4: Sales Prep</h3>
+    <p>Prospect list built, outreach templates written, BBLI Catering OS offer page ready, <strong>Sable:</strong> LWT content posted daily</p>
+  </div>
+</div>
+
+<!-- TEAM LEGEND -->
+<div class="team-legend">
+  <div class="team-legend-inner">
+    <h3>The Team</h3>
+    <div class="team-grid">
+      <div class="team-member"><div class="dot" style="background:#E85D75;">BN</div><div class="name">Britt Nycole</div></div>
+      <div class="team-member"><div class="dot" style="background:#2AA198;">BM</div><div class="name">The Bria Monet</div></div>
+      <div class="team-member"><div class="dot" style="background:#D4A017;">JB</div><div class="name">William Lewis</div></div>
+      <div class="team-member"><div class="dot" style="background:#7B5EA7;">Brain</div><div class="name">Latasha Barr</div></div>
+      <div class="team-member"><div class="dot" style="background:#3B82F6;">SW</div><div class="name">Shikeaya Walker</div></div>
+      <div class="team-member"><div class="dot" style="background:#4CAF50;">LM</div><div class="name">Lewis Myers</div></div>
+      <div class="team-member"><div class="dot" style="background:#FF8F00;">LB</div><div class="name">Lewis Barr</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- BIG PICTURE -->
+<div class="section" id="big-picture">
+  <div class="section-header" style="border-color: #6B4C9A;">
+    <h2 style="color: #6B4C9A;">The 12 Big Picture To-Dos</h2>
+  </div>
+  <div class="bp-grid">
+    <div class="bp-card bp-a"><div class="num">1</div><h3>GG Website 100% Complete</h3><p>All 8 pages live, real photos, reviews, inquiry form, mobile-tested</p><div class="bp-tags"><span class="tag tag-week">Week 1</span><span class="tag tag-count">9 subtasks</span></div></div>
+    <div class="bp-card bp-a"><div class="num">2</div><h3>BBLI Catering OS — Operations System Live</h3><p>3 true agents configured in Paperclip, Zapier bridge tested, all routines running dry-run</p><div class="bp-tags"><span class="tag tag-week">Week 1-2</span><span class="tag tag-count">7 subtasks</span></div></div>
+    <div class="bp-card bp-a"><div class="num">3</div><h3>All 3 Systems Built &amp; Tested</h3><p>Operations + Content Engine + Ads System — full customer journey verified end-to-end</p><div class="bp-tags"><span class="tag tag-week">Week 2-3</span><span class="tag tag-count">7 subtasks</span></div></div>
+    <div class="bp-card bp-a"><div class="num">4</div><h3>"Before" Data Captured</h3><p>Baseline metrics documented — inquiries, reviews, traffic, response time, conversion rate</p><div class="bp-tags"><span class="tag tag-week">Week 1</span><span class="tag tag-count">6 subtasks</span></div></div>
+    <div class="bp-card bp-b"><div class="num">5</div><h3>Brand Story Phases 1+2 Posted</h3><p>Origin story + 8 brand spotlights — "a family that's been doing this for each other for years, now doing it for everyone else." Sable Content lane.</p><div class="bp-tags"><span class="tag tag-week">Week 1-2</span><span class="tag tag-count">7 subtasks</span><span class="tag" style="background:#F3E8FF;color:#6B21A8;">Sable · Brand</span></div></div>
+    <div class="bp-card bp-b"><div class="num">6</div><h3>LWT Content Posting Begins</h3><p>Pull from content bank, format for platforms, post Mon-Fri, track engagement. Sable Content lane running the engine.</p><div class="bp-tags"><span class="tag tag-week">Week 2+</span><span class="tag tag-count">6 subtasks</span><span class="tag" style="background:#F3E8FF;color:#6B21A8;">Sable · Content</span></div></div>
+    <div class="bp-card bp-b"><div class="num">7</div><h3>BTS Content Documenting the Build</h3><p>Film/screenshot everything being built — website, agents, systems. Triple-duty: brand story + case study + credibility. Sable Content lane.</p><div class="bp-tags"><span class="tag tag-week">Week 1-4</span><span class="tag tag-count">5 subtasks</span><span class="tag" style="background:#F3E8FF;color:#6B21A8;">Sable · Content</span></div></div>
+    <div class="bp-card bp-c"><div class="num">8</div><h3>Apollo Prospect List Built</h3><p>BBLI Catering OS ICP defined, 75-100 catering/charcuterie prospects pulled and enriched</p><div class="bp-tags"><span class="tag tag-week">Week 3</span><span class="tag tag-count">6 subtasks</span></div></div>
+    <div class="bp-card bp-c"><div class="num">9</div><h3>Outreach Templates Written</h3><p>2 cold emails, 2 DM scripts, 3-step follow-up sequence — all loaded and ready</p><div class="bp-tags"><span class="tag tag-week">Week 3-4</span><span class="tag tag-count">7 subtasks</span></div></div>
+    <div class="bp-card bp-d"><div class="num">10</div><h3>Notion Workspace Live</h3><p>Dashboard, task board, brand pages, content calendar, docs folder — team trained</p><div class="bp-tags"><span class="tag tag-week">Week 1</span><span class="tag tag-count">7 subtasks</span></div></div>
+    <div class="bp-card bp-d"><div class="num">11</div><h3>Roles Assigned to People</h3><p>6 roles mapped to team members, 1-on-1s done, role cards in Notion</p><div class="bp-tags"><span class="tag tag-week">Week 1</span><span class="tag tag-count">5 subtasks</span></div></div>
+    <div class="bp-card bp-d"><div class="num">12</div><h3>Weekly Check-in Rhythm Started</h3><p>Recurring 30-min meeting, agenda template, async option for off-weeks</p><div class="bp-tags"><span class="tag tag-week">Week 1+</span><span class="tag tag-count">5 subtasks</span></div></div>
+  </div>
+</div>
+
+<!-- TRACK A -->
+<div class="section track-a" id="track-a">
+  <div class="section-header">
+    <h2>Track A: BBLI Catering OS — GG as Client #1</h2>
+    <span class="badge">29 subtasks</span>
+  </div>
+  <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Build the full BBLI Catering OS using Gathering Grace as the first client. Every decision, config file, and test becomes the replication template for every client that follows.</p>
+
+  <div class="expand-bar"><button class="expand-btn" onclick="toggleAll('track-a')">Expand / Collapse All</button></div>
+
+  <!-- TODO 1 -->
+  <div class="todo-card" onclick="toggleCard(this)">
+    <div class="todo-header">
+      <div class="todo-num">01</div>
+      <div class="todo-info">
+        <div class="todo-title">GG Website 100% Complete</div>
+        <div class="todo-meta">The first thing prospects see. Must be done before any outreach.</div>
+      </div>
+      <div class="todo-tags">
+        <span class="tag tag-week">Week 1</span>
+        <span class="tag tag-role">Systems Builder + Brand &amp; Design</span>
+        <span class="toggle-icon">&#9662;</span>
+      </div>
+    </div>
+    <div class="subtasks">
+      <table class="subtask-table">
+        <thead><tr><th class="subtask-check"></th><th>#</th><th>Subtask</th><th>Deliverable</th><th>Time</th><th class="subtask-assign">Assign</th></tr></thead>
+        <tbody>
+          <tr><td class="subtask-num">1</td><td>Audit current site — list every incomplete page, broken link, placeholder text</td><td>Audit checklist</td><td>1 hr</td></tr>
+          <tr><td class="subtask-num">2</td><td>Write/finalize copy for all 8 pages (Home, About, Services x5, Contact)</td><td>Final copy doc per page</td><td>3-4 hrs</td></tr>
+          <tr><td class="subtask-num">3</td><td>Source and upload real photos — NO stock photos (events, food, team, Kaleideum)</td><td>Photo folder organized by page</td><td>2 hrs</td></tr>
+          <tr><td class="subtask-num">4</td><td>Fix homepage hero section — headline, CTA button, above-the-fold layout</td><td>Live homepage update</td><td>1-2 hrs</td></tr>
+          <tr><td class="subtask-num">5</td><td>Build/fix navigation menu — all 8 pages linked, mobile-responsive</td><td>Working nav on desktop + mobile</td><td>1 hr</td></tr>
+          <tr><td class="subtask-num">6</td><td>Add real client reviews (minimum 3) with names and event types</td><td>Reviews section live on site</td><td>1 hr</td></tr>
+          <tr><td class="subtask-num">7</td><td>Set up inquiry form — name, email, event type, date, guest count, message</td><td>Working form that sends to GG email + triggers Receptionist queue</td><td>1 hr</td></tr>
+          <tr><td class="subtask-num">8</td><td>Mobile test on 3 devices — fix any layout breaks</td><td>Screenshot proof of mobile pass</td><td>1 hr</td></tr>
+          <tr><td class="subtask-num">9</td><td>Final team walkthrough — everyone clicks through, flags anything off</td><td>Sign-off from 2+ team members</td><td>30 min</td></tr>
+        </tbody>
+      </table>
+      <div class="process-note"><strong>REPEATABLE:</strong> This exact audit process repeats for every new BBLI Catering OS client. The website audit checklist becomes part of the onboarding SOP.</div>
+    </div>
+  </div>
+
+  <!-- TODO 2 -->
+  <div class="todo-card" onclick="toggleCard(this)">
+    <div class="todo-header">
+      <div class="todo-num">02</div>
+      <div class="todo-info">
+        <div class="todo-title">BBLI Catering OS — Operations System Live</div>
+        <div class="todo-meta">Build all 3 true agents + 2 skills in Paperclip. Configure Zapier bridge from GHL. Every config file becomes the replication template.</div>
+      </div>
+      <div class="todo-tags">
+        <span class="tag tag-week">Week 1-2</span>
+        <span class="tag tag-role">Systems Builder</span>
+        <span class="toggle-icon">&#9662;</span>
+      </div>
+    </div>
+    <div class="subtasks">
+      <table class="subtask-table">
+        <thead><tr><th class="subtask-check"></th><th>#</th><th>Subtask</th><th>Deliverable</th><th>Time</th><th class="subtask-assign">Assign</th></tr></thead>
+        <tbody>
+          <tr><td class="subtask-num">1</td><td>Write GG SOUL.md files — Orchestrator, Receptionist, Outreach Specialist (all 3 true agents)</td><td>3 SOUL.md files in /client/gg/context/</td><td>3-4 hrs</td></tr>
+          <tr><td class="subtask-num">2</td><td>Write GG CONTEXT.md — menu, pricing, service area, booking process, team contacts</td><td>CONTEXT.md in /client/gg/context/</td><td>1-2 hrs</td></tr>
+          <tr><td class="subtask-num">3</td><td>Write skill files — Reputation Manager + Website Manager (markdown playbooks)</td><td>2 skill .md files in /client/gg/context/skills/</td><td>2-3 hrs</td></tr>
+          <tr><td class="subtask-num">4</td><td>Create 3 Paperclip agents + configure heartbeat routines (Orchestrator 60-min, Receptionist 30-min, Outreach 4-hr)</td><td>3 active agents in Paperclip with cron triggers</td><td>2-3 hrs</td></tr>
+          <tr><td class="subtask-num">5</td><td>Build Zapier bridge: GHL inquiry form → inquiry-queue.json → Receptionist reads → response file → GHL SMS/email</td><td>Working bridge tested with dummy inquiry</td><td>2-3 hrs</td></tr>
+          <tr><td class="subtask-num">6</td><td>Run dry-run mode for first 5 executions — all agents generate output but nothing sends</td><td>Dry-run log showing all agents firing correctly</td><td>2 hrs</td></tr>
+          <tr><td class="subtask-num">7</td><td>Document full config: file paths, Paperclip routine IDs, Zapier zap IDs, model assignments</td><td>GG Configuration SOP (becomes replication template)</td><td>2 hrs</td></tr>
+        </tbody>
+      </table>
+      <div class="process-note"><strong>REPEATABLE:</strong> Every file created here (SOUL.md, CONTEXT.md, skill files) is the template. New clients get copies with their business info swapped in. Target replication time: 4-6 hours per new client.</div>
+    </div>
+  </div>
+
+  <!-- TODO 3 -->
+  <div class="todo-card" onclick="toggleCard(this)">
+    <div class="todo-header">
+      <div class="todo-num">03</div>
+      <div class="todo-info">
+        <div class="todo-title">All 3 Systems Built &amp; Tested End-to-End</div>
+        <div class="todo-meta">Run the full customer journey across all three systems. Every handoff must work. Record everything for the case study.</div>
+      </div>
+      <div class="todo-tags">
+        <span class="tag tag-week">Week 2-3</span>
+        <span class="tag tag-role">Systems Builder + Ops</span>
+        <span class="toggle-icon">&#9662;</span>
+      </div>
+    </div>
+    <div class="subtasks">
+      <table class="subtask-table">
+        <thead><tr><th class="subtask-check"></th><th>#</th><th>Subtask</th><th>Deliverable</th><th>Time</th><th class="subtask-assign">Assign</th></tr></thead>
+        <tbody>
+          <tr><td class="subtask-num">1</td><td>Map the full customer journey: visitor → inquiry → Receptionist → Orchestrator → booking → event → Reputation Manager → review request</td><td>Customer journey flowchart</td><td>1 hr</td></tr>
+          <tr><td class="subtask-num">2</td><td>Test #1 (Operations): Submit inquiry → verify Receptionist responds within 10 min → verify Orchestrator routes correctly</td><td>Pass/fail + screenshot of Paperclip activity log</td><td>30 min</td></tr>
+          <tr><td class="subtask-num">3</td><td>Test #2 (Operations): Simulate cold lead (no response 48 hrs) → verify Outreach Specialist fires follow-up</td><td>Pass/fail + screenshot of outreach queue</td><td>30 min</td></tr>
+          <tr><td class="subtask-num">4</td><td>Test #3 (Operations): Simulate completed event → verify Reputation Manager skill triggers review request</td><td>Pass/fail + draft review request to review</td><td>30 min</td></tr>
+          <tr><td class="subtask-num">5</td><td>Test #4 (Content Engine): Run Content Director skill → verify 5 posts generated → verify Canva MCP produces graphics</td><td>Pass/fail + sample content batch for human review</td><td>1 hr</td></tr>
+          <tr><td class="subtask-num">6</td><td>Test #5 (Ads System): Verify Ads Manager monitoring routine fires → verify weekly performance report generates</td><td>Pass/fail + sample report</td><td>30 min</td></tr>
+          <tr><td class="subtask-num">7</td><td>Record screen walkthrough of full flow working end-to-end (all 3 systems)</td><td>Loom/video recording — case study + sales content</td><td>30 min</td></tr>
+        </tbody>
+      </table>
+      <div class="process-note"><strong>REPEATABLE:</strong> This test protocol runs identically for every new client. The test log becomes the go-live sign-off document. The recording becomes the sales demo video.</div>
+    </div>
+  </div>
+
+  <!-- TODO 4 -->
+  <div class="todo-card" onclick="toggleCard(this)">
+    <div class="todo-header">
+      <div class="todo-num">04</div>
+      <div class="todo-info">
+        <div class="todo-title">"Before" Data Captured for GG</div>
+        <div class="todo-meta">Without before data, you have no case study. 2 hours max but CRITICAL.</div>
+      </div>
+      <div class="todo-tags">
+        <span class="tag tag-week">Week 1</span>
+        <span class="tag tag-role">Operations Manager</span>
+        <span class="toggle-icon">&#9662;</span>
+      </div>
+    </div>
+    <div class="subtasks">
+      <table class="subtask-table">
+        <thead><tr><th class="subtask-check"></th><th>#</th><th>Subtask</th><th>Deliverable</th><th>Time</th><th class="subtask-assign">Assign</th></tr></thead>
+        <tbody>
+          <tr><td class="subtask-num">1</td><td>Pull GG's current monthly inquiries (last 3 months average)</td><td>Number documented</td><td>30 min</td></tr>
+          <tr><td class="subtask-num">2</td><td>Pull current Google review count + average rating</td><td>Number documented</td><td>15 min</td></tr>
+          <tr><td class="subtask-num">3</td><td>Pull current website traffic (if analytics exist)</td><td>Number documented</td><td>15 min</td></tr>
+          <tr><td class="subtask-num">4</td><td>Pull current response time to inquiries (estimate if no data)</td><td>Number documented</td><td>15 min</td></tr>
+          <tr><td class="subtask-num">5</td><td>Pull current booking conversion rate (inquiries → booked events)</td><td>Number documented</td><td>30 min</td></tr>
+          <tr><td class="subtask-num">6</td><td>Compile into "Before Snapshot" doc — baseline for the case study</td><td>1-page Before Snapshot in Notion</td><td>30 min</td></tr>
+        </tbody>
+      </table>
+      <div class="process-note"><strong>REPEATABLE:</strong> Same Before Snapshot template used for every new BBLI Catering OS client. This is how you build the case study that sells the next 10.</div>
+    </div>
+  </div>
+</div>
+
+<!-- TRACK B -->
+<div class="section track-b" id="track-b">
+  <div class="section-header">
+    <h2>Track B: Content + Brand Story · <span style="font-style:italic; opacity:0.85;">Powered by Sable</span></h2>
+    <span class="badge">18 subtasks</span>
+  </div>
+  <p style="color: #666; font-size: 14px; margin-bottom: 20px;">This is Sable's division doing what it does — positioning the family brand, producing content in our voice, and documenting the build. The core narrative: a family that's been building businesses for each other for years. Now we're doing it for everybody else. That story lives here.</p>
+
+  <div class="expand-bar"><button class="expand-btn" onclick="toggleAll('track-b')">Expand / Collapse All</button></div>
+
+  <!-- TODO 5 -->
+  <div class="todo-card" onclick="toggleCard(this)">
+    <div class="todo-header">
+      <div class="todo-num">05</div>
+      <div class="todo-info">
+        <div class="todo-title">Brand Story Phases 1 + 2 Posted <span style="font-size:11px;font-weight:600;color:#6B21A8;background:#F3E8FF;padding:2px 8px;border-radius:10px;margin-left:6px;">Sable · Brand</span></div>
+        <div class="todo-meta">Sable handles positioning and brand story. The narrative: "A family that's been doing this for each other for years — now doing it for everyone else." Build anticipation before any selling happens.</div>
+      </div>
+      <div class="todo-tags">
+        <span class="tag tag-week">Week 1-2</span>
+        <span class="tag tag-role">Content Lead + Brand &amp; Design</span>
+        <span class="toggle-icon">&#9662;</span>
+      </div>
+    </div>
+    <div class="subtasks">
+      <table class="subtask-table">
+        <thead><tr><th class="subtask-check"></th><th>#</th><th>Subtask</th><th>Deliverable</th><th>Time</th><th class="subtask-assign">Assign</th></tr></thead>
+        <tbody>
+          <tr><td class="subtask-num">1</td><td>Write Phase 1 post: Origin Story — "We've always been this"</td><td>Final caption + visual concept</td><td>1-2 hrs</td></tr>
+          <tr><td class="subtask-num">2</td><td>Design Phase 1 visual (Canva) — family brand origin, warm tone</td><td>Canva graphic ready to post</td><td>1 hr</td></tr>
+          <tr><td class="subtask-num">3</td><td>Post Phase 1 to TikTok + Threads + IG</td><td>Live posts with links</td><td>30 min</td></tr>
+          <tr><td class="subtask-num">4</td><td>Write Phase 2 posts: Meet the Brands — 1 spotlight per brand (8 total)</td><td>8 captions written</td><td>3-4 hrs</td></tr>
+          <tr><td class="subtask-num">5</td><td>Design Phase 2 visuals — branded card for each brand</td><td>8 Canva graphics</td><td>2-3 hrs</td></tr>
+          <tr><td class="subtask-num">6</td><td>Schedule Phase 2 posts (1 brand spotlight every 1-2 days)</td><td>Posting schedule in content calendar</td><td>30 min</td></tr>
+          <tr><td class="subtask-num">7</td><td>Highlight the Next-Gen story in Cam's + Ascension spotlights</td><td>Copy emphasizes "building entrepreneurs since kids"</td><td>Included</td></tr>
+        </tbody>
+      </table>
+      <div class="process-note"><strong>SEQUENCE:</strong> Phase 1 goes Day 1. Phase 2 rolls over Week 1-2. Phase 3 (mission) and Phase 4 (official rollout) come Month 2.</div>
+      <div class="process-note" style="background:#F3E8FF; border-color:#6B21A8;"><strong style="color:#6B21A8;">SABLE:</strong> This is Sable's brand positioning work applied to BBLI first. The family origin story — "we've been doing this for each other for years, now we're doing it for everyone else" — is the core narrative Sable will use to amplify every brand it builds. We are Case Study #0.</div>
+    </div>
+  </div>
+
+  <!-- TODO 6 -->
+  <div class="todo-card" onclick="toggleCard(this)">
+    <div class="todo-header">
+      <div class="todo-num">06</div>
+      <div class="todo-info">
+        <div class="todo-title">LWT Content Posting Begins <span style="font-size:11px;font-weight:600;color:#6B21A8;background:#F3E8FF;padding:2px 8px;border-radius:10px;margin-left:6px;">Sable · Content</span></div>
+        <div class="todo-meta">Sable Content lane running the engine. Content bank is ALREADY WRITTEN — this is pure execution: format and post. Sable's model in action on our own brand.</div>
+      </div>
+      <div class="todo-tags">
+        <span class="tag tag-week">Week 2+</span>
+        <span class="tag tag-role">Content Lead</span>
+        <span class="toggle-icon">&#9662;</span>
+      </div>
+    </div>
+    <div class="subtasks">
+      <table class="subtask-table">
+        <thead><tr><th class="subtask-check"></th><th>#</th><th>Subtask</th><th>Deliverable</th><th>Time</th><th class="subtask-assign">Assign</th></tr></thead>
+        <tbody>
+          <tr><td class="subtask-num">1</td><td>Pull Week 1 content from the 6-week content bank (already written)</td><td>5 posts ready to format</td><td>15 min</td></tr>
+          <tr><td class="subtask-num">2</td><td>Format posts for TikTok (video scripts or text overlays)</td><td>5 TikTok-ready posts</td><td>1-2 hrs</td></tr>
+          <tr><td class="subtask-num">3</td><td>Format posts for Threads (text-first, conversational)</td><td>5 Threads-ready posts</td><td>1 hr</td></tr>
+          <tr><td class="subtask-num">4</td><td>Post Week 1 content (Mon-Fri cadence)</td><td>5 posts live</td><td>30 min/day</td></tr>
+          <tr><td class="subtask-num">5</td><td>Repeat weekly: pull from content bank, format, post</td><td>Ongoing weekly rhythm</td><td>2-3 hrs/wk</td></tr>
+          <tr><td class="subtask-num">6</td><td>Track engagement: saves, shares, DMs, comments (screenshot weekly)</td><td>Weekly engagement tracker</td><td>15 min/wk</td></tr>
+        </tbody>
+      </table>
+      <div class="process-note"><strong>FORMULA:</strong> 60% pure value, 30% story + lessons, 10% results/proof. Content bank covers 6 weeks.</div>
+      <div class="process-note" style="background:#F3E8FF; border-color:#6B21A8;"><strong style="color:#6B21A8;">SABLE:</strong> Sable Content lane in action on our own brand. Same system, same engine, same weekly rhythm we'll sell to clients. We are proving the model on ourselves.</div>
+    </div>
+  </div>
+
+  <!-- TODO 7 -->
+  <div class="todo-card" onclick="toggleCard(this)">
+    <div class="todo-header">
+      <div class="todo-num">07</div>
+      <div class="todo-info">
+        <div class="todo-title">BTS Content Documenting the Build <span style="font-size:11px;font-weight:600;color:#6B21A8;background:#F3E8FF;padding:2px 8px;border-radius:10px;margin-left:6px;">Sable · Content</span></div>
+        <div class="todo-meta">Sable Content lane — triple duty: feeds the family brand story, builds the BBLI case study, and demonstrates Sable's content model working on our own brand in real time. The build IS the content.</div>
+      </div>
+      <div class="todo-tags">
+        <span class="tag tag-week">Week 1-4</span>
+        <span class="tag tag-role">Content Lead</span>
+        <span class="toggle-icon">&#9662;</span>
+      </div>
+    </div>
+    <div class="subtasks">
+      <table class="subtask-table">
+        <thead><tr><th class="subtask-check"></th><th>#</th><th>Subtask</th><th>Deliverable</th><th>Time</th><th class="subtask-assign">Assign</th></tr></thead>
+        <tbody>
+          <tr><td class="subtask-num">1</td><td>Film/screenshot the GG website being built — before vs. during vs. after</td><td>3-5 BTS clips or image sets</td><td>As you go</td></tr>
+          <tr><td class="subtask-num">2</td><td>Screenshot/record the BBLI Catering OS being configured — Paperclip agents, SOUL.md files, Zapier bridge setup</td><td>2-3 BTS clips showing the system being built</td><td>As you go</td></tr>
+          <tr><td class="subtask-num">3</td><td>Write captions: "What it looks like to build an AI operations system for a local business"</td><td>Captions for each BTS post</td><td>30 min each</td></tr>
+          <tr><td class="subtask-num">4</td><td>Post 1-2 BTS pieces per week to TikTok/Threads/IG</td><td>BTS posts live</td><td>30 min/wk</td></tr>
+          <tr><td class="subtask-num">5</td><td>Save raw footage/screenshots to shared folder — this becomes the demo video + case study content</td><td>BTS content archive folder in Notion/Drive</td><td>Ongoing</td></tr>
+        </tbody>
+      </table>
+      <div class="process-note"><strong>KEY:</strong> The BBLI Catering OS build is your sales content. Every screenshot of an agent firing, every Paperclip routine running, every Zapier trigger — document it all. That's your proof.</div>
+      <div class="process-note" style="background:#F3E8FF; border-color:#6B21A8;"><strong style="color:#6B21A8;">SABLE:</strong> BTS documentation IS Sable's content model running on BBLI. Every piece of footage and every screenshot feeds the brand story, builds the case study, and shows the world what Sable does before we ever pitch a client.</div>
+    </div>
+  </div>
+</div>
+
+<!-- TRACK C -->
+<div class="section track-c" id="track-c">
+  <div class="section-header">
+    <h2>Track C: Sales Prep</h2>
+    <span class="badge">16 subtasks</span>
+  </div>
+  <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Build the pipeline and templates so when the GG case study is ready, you can sell BBLI Catering OS immediately to the next client.</p>
+
+  <div class="expand-bar"><button class="expand-btn" onclick="toggleAll('track-c')">Expand / Collapse All</button></div>
+
+  <!-- TODO 7.5 — Apollo Onboarding -->
+  <div class="todo-card" onclick="toggleCard(this)">
+    <div class="todo-header">
+      <div class="todo-num">07.5</div>
+      <div class="todo-info">
+        <div class="todo-title">Apollo Onboarding — Get Comfortable Before Week 3</div>
+        <div class="todo-meta">Lewis gets into the tool now so Week 3 isn't a cold start. Practice tasks that build real skills AND produce useful output.</div>
+      </div>
+      <div class="todo-tags">
+        <span class="tag tag-week">Week 1</span>
+        <span class="tag tag-role">Sales &amp; Outreach</span>
+        <span class="toggle-icon">&#9662;</span>
+      </div>
+    </div>
+    <div class="subtasks">
+      <table class="subtask-table">
+        <thead><tr><th class="subtask-check"></th><th>#</th><th>Subtask</th><th>Deliverable</th><th>Time</th><th class="subtask-assign">Assign</th></tr></thead>
+        <tbody>
+          <tr><td class="subtask-num">1</td><td>Log into Apollo, explore the filter and search system. Run one test search: catering businesses, US, company size 1-10. Don't pull a list yet — just learn the interface. Register for Apollo Connected Stack training: https://events.apollo.io/connected-stack/</td><td>Confirmed login + training registration</td><td>30 min</td><td><div class="avatar" title="Lewis Barr">LB</div></td></tr>
+          <tr><td class="subtask-num">2</td><td>Run a Sable ICP practice search — search for authors, speakers, coaches, and consultants. Pull 20 names as a test list. No outreach yet — building your eye for what a qualified lead looks like.</td><td>20-name test list saved in Apollo</td><td>1 hr</td><td><div class="avatar" title="Lewis Barr">LB</div></td></tr>
+          <tr><td class="subtask-num">3</td><td>Competitor research — find 5 agencies or companies offering AI systems or automation services to small businesses. Note pricing (if visible), how they describe what they do, and who they target. Drop findings in Notion.</td><td>Competitor notes in Notion</td><td>1 hr</td><td><div class="avatar" title="Lewis Barr">LB</div></td></tr>
+        </tbody>
+      </table>
+      <div class="process-note"><strong>PURPOSE:</strong> Week 3 is when real prospecting starts. This week is about tool fluency. By the time the ICP doc is written and the case study is ready, Lewis knows exactly how to execute in Apollo without a learning curve slowing things down.</div>
+    </div>
+  </div>
+
+  <!-- TODO 8 -->
+  <div class="todo-card" onclick="toggleCard(this)">
+    <div class="todo-header">
+      <div class="todo-num">08</div>
+      <div class="todo-info">
+        <div class="todo-title">Apollo Prospect List Built</div>
+        <div class="todo-meta">Target: catering companies and charcuterie brands nationally. ICP = local food businesses doing events, no real marketing system.</div>
+      </div>
+      <div class="todo-tags">
+        <span class="tag tag-week">Week 3</span>
+        <span class="tag tag-role">Sales &amp; Outreach</span>
+        <span class="toggle-icon">&#9662;</span>
+      </div>
+    </div>
+    <div class="subtasks">
+      <table class="subtask-table">
+        <thead><tr><th class="subtask-check"></th><th>#</th><th>Subtask</th><th>Deliverable</th><th>Time</th><th class="subtask-assign">Assign</th></tr></thead>
+        <tbody>
+          <tr><td class="subtask-num">1</td><td>Define BBLI Catering OS ICP: catering/charcuterie owner, $150K-500K revenue, 1-5 team members, doing events regularly, no AI/automation in place</td><td>1-page ICP doc</td><td>1 hr</td></tr>
+          <tr><td class="subtask-num">2</td><td>Set up Apollo filters matching ICP — industry: food services/catering, geography: US, company size: 1-10</td><td>Saved search in Apollo</td><td>30 min</td></tr>
+          <tr><td class="subtask-num">3</td><td>Pull first 100 prospects — review for quality, remove bad fits</td><td>Cleaned list of 75-100 prospects</td><td>1-2 hrs</td></tr>
+          <tr><td class="subtask-num">4</td><td>Enrich data: find LinkedIn profiles, verify emails, note Instagram presence (social proof check)</td><td>Enriched prospect spreadsheet</td><td>1 hr</td></tr>
+          <tr><td class="subtask-num">5</td><td>Tag/segment by vertical: catering vs. charcuterie vs. both, event type (corporate vs. weddings vs. social)</td><td>Tagged list in Apollo</td><td>30 min</td></tr>
+          <tr><td class="subtask-num">6</td><td>Export backup to Google Sheets as safety copy</td><td>Google Sheet with prospect data</td><td>15 min</td></tr>
+        </tbody>
+      </table>
+      <div class="process-note"><strong>REMINDER:</strong> Local businesses find BBLI through content and referrals. Apollo is for direct national outreach to caterers and charcuterie brands who don't know us yet.</div>
+    </div>
+  </div>
+
+  <!-- TODO 9 -->
+  <div class="todo-card" onclick="toggleCard(this)">
+    <div class="todo-header">
+      <div class="todo-num">09</div>
+      <div class="todo-info">
+        <div class="todo-title">Outreach Templates Written</div>
+        <div class="todo-meta">No cold calls. Email and DM only. Must sound human, not salesy. Lead with the GG case study results.</div>
+      </div>
+      <div class="todo-tags">
+        <span class="tag tag-week">Week 3-4</span>
+        <span class="tag tag-role">Sales &amp; Outreach + Content</span>
+        <span class="toggle-icon">&#9662;</span>
+      </div>
+    </div>
+    <div class="subtasks">
+      <table class="subtask-table">
+        <thead><tr><th class="subtask-check"></th><th>#</th><th>Subtask</th><th>Deliverable</th><th>Time</th><th class="subtask-assign">Assign</th></tr></thead>
+        <tbody>
+          <tr><td class="subtask-num">1</td><td>Write cold email #1: Problem-focused ("Every inquiry you miss after hours is a lost booking")</td><td>Email template ready to personalize</td><td>1 hr</td></tr>
+          <tr><td class="subtask-num">2</td><td>Write cold email #2: Proof-focused (lead with GG results — reviews, response time, inquiries)</td><td>Email template ready to personalize</td><td>1 hr</td></tr>
+          <tr><td class="subtask-num">3</td><td>Write DM #1: Instagram/LinkedIn connection message (short, curiosity-driven, food business angle)</td><td>DM script</td><td>30 min</td></tr>
+          <tr><td class="subtask-num">4</td><td>Write DM #2: Follow-up after connection accepted</td><td>DM script</td><td>30 min</td></tr>
+          <tr><td class="subtask-num">5</td><td>Write follow-up sequence: Day 3, Day 7, Day 14 after no response</td><td>3-email follow-up sequence</td><td>1-2 hrs</td></tr>
+          <tr><td class="subtask-num">6</td><td>Review all templates with team — do they sound human?</td><td>Team-approved templates</td><td>30 min</td></tr>
+          <tr><td class="subtask-num">7</td><td>Load templates into Apollo for easy sending and tracking</td><td>Templates loaded in Apollo</td><td>30 min</td></tr>
+        </tbody>
+      </table>
+      <div class="process-note"><strong>RULE:</strong> Personalize the first line for every prospect. The GG results are your hook — real numbers, real business, same industry.</div>
+    </div>
+  </div>
+</div>
+
+<!-- TRACK D -->
+<div class="section track-d" id="track-d">
+  <div class="section-header">
+    <h2>Track D: Operations</h2>
+    <span class="badge">17 subtasks</span>
+  </div>
+  <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Get the operating system in place so everyone knows what they're doing, where to find things, and how to check in.</p>
+
+  <div class="expand-bar"><button class="expand-btn" onclick="toggleAll('track-d')">Expand / Collapse All</button></div>
+
+  <!-- TODO 10 -->
+  <div class="todo-card" onclick="toggleCard(this)">
+    <div class="todo-header">
+      <div class="todo-num">10</div>
+      <div class="todo-info">
+        <div class="todo-title">Notion Workspace Live</div>
+        <div class="todo-meta">Single source of truth. If it's not in Notion, it doesn't exist.</div>
+      </div>
+      <div class="todo-tags">
+        <span class="tag tag-week">Week 1</span>
+        <span class="tag tag-role">Operations Manager</span>
+        <span class="toggle-icon">&#9662;</span>
+      </div>
+    </div>
+    <div class="subtasks">
+      <table class="subtask-table">
+        <thead><tr><th class="subtask-check"></th><th>#</th><th>Subtask</th><th>Deliverable</th><th>Time</th><th class="subtask-assign">Assign</th></tr></thead>
+        <tbody>
+          <tr><td class="subtask-num">1</td><td>Create Notion workspace with team access</td><td>Workspace URL shared with team</td><td>30 min</td></tr>
+          <tr><td class="subtask-num">2</td><td>Build main dashboard: links to all key docs, brand pages, task boards</td><td>Dashboard page live</td><td>1-2 hrs</td></tr>
+          <tr><td class="subtask-num">3</td><td>Create task board: 4 tracks, each to-do as a card, subtasks as checklist items</td><td>Task board with all 12 to-dos</td><td>2-3 hrs</td></tr>
+          <tr><td class="subtask-num">4</td><td>Create brand pages: 1 page per brand with status, key info, links, next steps</td><td>8 brand pages</td><td>2 hrs</td></tr>
+          <tr><td class="subtask-num">5</td><td>Create shared docs folder: SOPs, templates, guides, meeting notes</td><td>Docs folder structure</td><td>30 min</td></tr>
+          <tr><td class="subtask-num">6</td><td>Create content calendar view: what's posting when, on which platform</td><td>Content calendar in Notion</td><td>1 hr</td></tr>
+          <tr><td class="subtask-num">7</td><td>Quick team training: 15-min walkthrough of where everything lives</td><td>Recorded walkthrough (Loom)</td><td>30 min</td></tr>
+        </tbody>
+      </table>
+      <div class="process-note"><strong>KEY:</strong> Every SOP, template, and process doc goes in Notion. This is the operating system for the entire family operation.</div>
+    </div>
+  </div>
+
+  <!-- TODO 11 -->
+  <div class="todo-card" onclick="toggleCard(this)">
+    <div class="todo-header">
+      <div class="todo-num">11</div>
+      <div class="todo-info">
+        <div class="todo-title">Roles Assigned to People</div>
+        <div class="todo-meta">Roles, not titles. Primary role = strongest now. Stretch role = learning.</div>
+      </div>
+      <div class="todo-tags">
+        <span class="tag tag-week">Week 1</span>
+        <span class="tag tag-role">Operations Manager</span>
+        <span class="toggle-icon">&#9662;</span>
+      </div>
+    </div>
+    <div class="subtasks">
+      <table class="subtask-table">
+        <thead><tr><th class="subtask-check"></th><th>#</th><th>Subtask</th><th>Deliverable</th><th>Time</th><th class="subtask-assign">Assign</th></tr></thead>
+        <tbody>
+          <tr><td class="subtask-num">1</td><td>List all 7-8 team members and their current strengths/interests</td><td>Team roster with notes</td><td>30 min</td></tr>
+          <tr><td class="subtask-num">2</td><td>Map each person to 1-2 roles (primary + stretch role)</td><td>Role assignments doc</td><td>1 hr</td></tr>
+          <tr><td class="subtask-num">3</td><td>Have 1-on-1 conversations: does this role feel right? What support needed?</td><td>Confirmed assignments</td><td>2-3 hrs</td></tr>
+          <tr><td class="subtask-num">4</td><td>Create role cards in Notion: role name, responsibilities, current owner, key tasks</td><td>6 role cards in Notion</td><td>1 hr</td></tr>
+          <tr><td class="subtask-num">5</td><td>Set up Notion task board filtered views — each person sees their own tasks</td><td>Filtered views working</td><td>30 min</td></tr>
+        </tbody>
+      </table>
+      <div class="process-note"><strong>FLEXIBILITY:</strong> Nobody is locked in. Roles shift as people grow. The goal is clarity, not rigidity.</div>
+    </div>
+  </div>
+
+  <!-- TODO 12 -->
+  <div class="todo-card" onclick="toggleCard(this)">
+    <div class="todo-header">
+      <div class="todo-num">12</div>
+      <div class="todo-info">
+        <div class="todo-title">Weekly Check-in Rhythm Started</div>
+        <div class="todo-meta">30 min max. No status theater — what's done, what's stuck, what's next.</div>
+      </div>
+      <div class="todo-tags">
+        <span class="tag tag-week">Week 1+</span>
+        <span class="tag tag-role">Operations Manager</span>
+        <span class="toggle-icon">&#9662;</span>
+      </div>
+    </div>
+    <div class="subtasks">
+      <table class="subtask-table">
+        <thead><tr><th class="subtask-check"></th><th>#</th><th>Subtask</th><th>Deliverable</th><th>Time</th><th class="subtask-assign">Assign</th></tr></thead>
+        <tbody>
+          <tr><td class="subtask-num">1</td><td>Pick recurring day/time for 30-min weekly check-in</td><td>Calendar invite sent to all</td><td>15 min</td></tr>
+          <tr><td class="subtask-num">2</td><td>Create check-in agenda template: wins, blockers, next week's priorities, one number to track</td><td>Notion template</td><td>30 min</td></tr>
+          <tr><td class="subtask-num">3</td><td>Run first check-in: review Week 1 progress, adjust Week 2 priorities</td><td>Meeting notes posted</td><td>30 min</td></tr>
+          <tr><td class="subtask-num">4</td><td>Set up async check-in option for weeks when meeting isn't possible</td><td>Google Form or Notion form</td><td>30 min</td></tr>
+          <tr><td class="subtask-num">5</td><td>After Week 2: review what's working, what's stuck, re-assign if needed</td><td>Updated task assignments</td><td>30 min</td></tr>
+        </tbody>
+      </table>
+      <div class="process-note"><strong>PURPOSE:</strong> The check-in is how you catch problems early. Keep it tight. Wins, blockers, next steps, done.</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  BBLI Inc. | 30-Day Plan | June 2026 | Confidential
+</div>
+
+<script>
+const DB = 'https://bbli-plan-default-rtdb.firebaseio.com';
+const TEAM = [
+  { id: 'BN', name: 'Britt Nycole', color: '#E85D75' },
+  { id: 'BM', name: 'The Bria Monet', color: '#2AA198' },
+  { id: 'JB', name: 'William Lewis', color: '#D4A017' },
+  { id: 'Brain', name: 'Latasha Barr', color: '#7B5EA7' },
+  { id: 'SW', name: 'Shikeaya Walker', color: '#3B82F6' },
+  { id: 'LM', name: 'Lewis Myers', color: '#4CAF50' },
+  { id: 'LB', name: 'Lewis Barr', color: '#FF8F00' }
+];
+
+// In-memory cache — Firebase is the source of truth
+let _assignments = {};
+let _progress = {};
+
+function getAssignments() { return _assignments; }
+function getProgress() { return _progress; }
+
+function saveAssignments(data) {
+  _assignments = data;
+  setStatus('saving');
+  fetch(DB + '/assignments.json', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  }).then(() => setStatus('saved')).catch(() => setStatus('error'));
+}
+
+function saveProgress(data) {
+  _progress = data;
+  setStatus('saving');
+  fetch(DB + '/progress.json', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  }).then(() => setStatus('saved')).catch(() => setStatus('error'));
+}
+
+async function loadFromFirebase() {
+  try {
+    const [aRes, pRes] = await Promise.all([
+      fetch(DB + '/assignments.json'),
+      fetch(DB + '/progress.json')
+    ]);
+    const aData = await aRes.json();
+    const pData = await pRes.json();
+    _assignments = aData || {};
+    _progress = pData || {};
+    // Migrate old string format to arrays
+    Object.keys(_assignments).forEach(k => {
+      if (typeof _assignments[k] === 'string') _assignments[k] = [_assignments[k]];
+    });
+  } catch(e) {
+    console.warn('Firebase load failed:', e);
+    _assignments = {};
+    _progress = {};
+  }
+}
+
+function applyRemoteUpdates(freshA, freshP) {
+  _assignments = freshA;
+  _progress = freshP;
+  // Re-render assign dots
+  document.querySelectorAll('.assign-wrap').forEach(wrap => {
+    const key = wrap.getAttribute('data-akey');
+    renderAssignDots(wrap, key, _assignments[key] || []);
+  });
+  // Re-apply checkboxes
+  document.querySelectorAll('.todo-card').forEach((card, ci) => {
+    card.querySelectorAll('.subtask-table tbody tr').forEach((row, ri) => {
+      const key = ci + '-' + ri;
+      const cb = row.querySelector('input[type="checkbox"]');
+      if (cb) {
+        cb.checked = !!_progress[key];
+        if (cb.checked) row.classList.add('done');
+        else row.classList.remove('done');
+      }
+    });
+  });
+  updateAllProgress();
+}
+
+// Poll Firebase every 10 seconds to sync remote changes
+function startPolling() {
+  setInterval(async () => {
+    try {
+      const [aRes, pRes] = await Promise.all([
+        fetch(DB + '/assignments.json'),
+        fetch(DB + '/progress.json')
+      ]);
+      const freshA = (await aRes.json()) || {};
+      const freshP = (await pRes.json()) || {};
+      Object.keys(freshA).forEach(k => {
+        if (typeof freshA[k] === 'string') freshA[k] = [freshA[k]];
+      });
+      // Only re-render if something changed
+      if (JSON.stringify(freshA) !== JSON.stringify(_assignments) ||
+          JSON.stringify(freshP) !== JSON.stringify(_progress)) {
+        applyRemoteUpdates(freshA, freshP);
+        setStatus('synced');
+      }
+    } catch(e) { /* silent fail */ }
+  }, 10000);
+}
+
+// Sync status indicator
+function setStatus(state) {
+  const el = document.getElementById('sync-status');
+  if (!el) return;
+  if (state === 'saving') { el.textContent = '⏳ Saving...'; el.style.color = '#999'; }
+  else if (state === 'saved') { el.textContent = '✓ Synced'; el.style.color = '#4CAF50'; setTimeout(() => { el.textContent = '✓ Live'; el.style.color = '#4CAF50'; }, 1500); }
+  else if (state === 'synced') { el.textContent = '↻ Updated'; el.style.color = '#1565C0'; setTimeout(() => { el.textContent = '✓ Live'; el.style.color = '#4CAF50'; }, 1500); }
+  else if (state === 'error') { el.textContent = '⚠ Sync error'; el.style.color = '#C62828'; }
+}
+
+function toggleCard(card) {
+  card.classList.toggle('open');
+}
+function toggleAll(sectionId) {
+  const section = document.getElementById(sectionId);
+  const cards = section.querySelectorAll('.todo-card');
+  const anyOpen = Array.from(cards).some(c => c.classList.contains('open'));
+  cards.forEach(c => {
+    if (anyOpen) c.classList.remove('open');
+    else c.classList.add('open');
+  });
+}
+
+function resetProgress() {
+  if (!confirm('Reset ALL progress and assignments for the entire team? This cannot be undone.')) return;
+  _assignments = {};
+  _progress = {};
+  Promise.all([
+    fetch(DB + '/assignments.json', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: 'null' }),
+    fetch(DB + '/progress.json', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: 'null' })
+  ]).then(() => setStatus('saved'));
+  document.querySelectorAll('.subtask-check input').forEach(cb => { cb.checked = false; cb.closest('tr').classList.remove('done'); });
+  document.querySelectorAll('.assign-wrap').forEach(w => { renderAssignDots(w, w.getAttribute('data-akey'), []); });
+  updateAllProgress();
+}
+
+// Inject checkboxes into every subtask row
+function initCheckboxes() {
+  const progress = getProgress();
+  const cards = document.querySelectorAll('.todo-card');
+  cards.forEach((card, ci) => {
+    card.setAttribute('data-todo', ci);
+    const rows = card.querySelectorAll('.subtask-table tbody tr');
+    rows.forEach((row, ri) => {
+      const key = ci + '-' + ri;
+      const td = document.createElement('td');
+      td.className = 'subtask-check';
+      const cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.checked = !!progress[key];
+      if (cb.checked) row.classList.add('done');
+      cb.addEventListener('change', function(e) {
+        e.stopPropagation();
+        const p = getProgress();
+        if (this.checked) { p[key] = 1; row.classList.add('done'); }
+        else { delete p[key]; row.classList.remove('done'); }
+        saveProgress(p);
+        updateAllProgress();
+      });
+      cb.addEventListener('click', function(e) { e.stopPropagation(); });
+      td.addEventListener('click', function(e) { e.stopPropagation(); });
+      td.appendChild(cb);
+      row.insertBefore(td, row.firstChild);
+    });
+
+    // Add assign dots
+    const assignments = getAssignments();
+    rows.forEach((row, ri) => {
+      const aKey = ci + '-' + ri;
+      const atd = document.createElement('td');
+      atd.className = 'subtask-assign';
+      const wrap = document.createElement('div');
+      wrap.className = 'assign-wrap';
+      wrap.setAttribute('data-akey', aKey);
+      renderAssignDots(wrap, aKey, assignments[aKey] || []);
+      wrap.addEventListener('click', function(e) {
+        e.stopPropagation();
+        showAssignMenu(wrap, aKey);
+      });
+      atd.addEventListener('click', function(e) { e.stopPropagation(); });
+      atd.appendChild(wrap);
+      row.appendChild(atd);
+    });
+
+    // Add progress bar to header
+    const info = card.querySelector('.todo-info');
+    const pw = document.createElement('div');
+    pw.className = 'progress-wrap';
+    pw.innerHTML = '<div class="progress-bar"><div class="progress-fill" data-bar="' + ci + '"></div></div><span class="progress-text" data-ptext="' + ci + '">0/' + rows.length + '</span>';
+    pw.addEventListener('click', function(e) { e.stopPropagation(); });
+    info.appendChild(pw);
+  });
+  updateAllProgress();
+}
+
+function updateAllProgress() {
+  const progress = getProgress();
+  let totalDone = 0, totalAll = 0;
+  const cards = document.querySelectorAll('.todo-card');
+  cards.forEach((card, ci) => {
+    const rows = card.querySelectorAll('.subtask-table tbody tr');
+    const total = rows.length;
+    let done = 0;
+    rows.forEach((r, ri) => { if (progress[ci + '-' + ri]) done++; });
+    totalDone += done;
+    totalAll += total;
+    const bar = document.querySelector('[data-bar="' + ci + '"]');
+    const txt = document.querySelector('[data-ptext="' + ci + '"]');
+    if (bar) bar.style.width = (total ? (done / total * 100) : 0) + '%';
+    if (txt) txt.textContent = done + '/' + total;
+    if (done === total && total > 0) card.classList.add('all-done');
+    else card.classList.remove('all-done');
+  });
+  const pct = totalAll ? Math.round(totalDone / totalAll * 100) : 0;
+  document.getElementById('pct-done').textContent = pct + '%';
+}
+
+function renderAssignDots(wrap, key, assigned) {
+  wrap.innerHTML = '';
+  if (typeof assigned === 'string') assigned = [assigned];
+  if (!Array.isArray(assigned)) assigned = [];
+  if (!assigned || assigned.length === 0) {
+    const dot = document.createElement('div');
+    dot.className = 'assign-dot unassigned';
+    dot.textContent = '+';
+    wrap.appendChild(dot);
+  } else {
+    assigned.forEach(id => {
+      const member = TEAM.find(t => t.id === id);
+      if (member) {
+        const dot = document.createElement('div');
+        dot.className = 'assign-dot';
+        dot.style.background = member.color;
+        dot.textContent = member.id;
+        wrap.appendChild(dot);
+      }
+    });
+    // Add "+" to add more
+    const addDot = document.createElement('div');
+    addDot.className = 'assign-dot add-more';
+    addDot.textContent = '+';
+    wrap.appendChild(addDot);
+  }
+}
+
+function showAssignMenu(wrap, key) {
+  const old = document.getElementById('assign-menu');
+  if (old) old.remove();
+
+  const a = getAssignments();
+  const current = a[key] || [];
+
+  const menu = document.createElement('div');
+  menu.id = 'assign-menu';
+  menu.style.cssText = 'position:fixed;z-index:999;background:white;border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,0.15);padding:8px;display:flex;flex-direction:column;gap:2px;min-width:200px;';
+
+  // Clear all option
+  const unBtn = document.createElement('div');
+  unBtn.style.cssText = 'display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:13px;color:#999;';
+  unBtn.innerHTML = '<span style="width:26px;height:26px;border-radius:50%;border:2px dashed #ccc;display:inline-flex;align-items:center;justify-content:center;font-size:12px;">✕</span> Clear all';
+  unBtn.addEventListener('mouseenter', function() { this.style.background = '#f5f5f5'; });
+  unBtn.addEventListener('mouseleave', function() { this.style.background = 'none'; });
+  unBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    delete a[key]; saveAssignments(a);
+    renderAssignDots(wrap, key, []);
+    menu.remove();
+  });
+  menu.appendChild(unBtn);
+
+  // Divider
+  const hr = document.createElement('div');
+  hr.style.cssText = 'height:1px;background:#eee;margin:4px 0;';
+  menu.appendChild(hr);
+
+  TEAM.forEach(member => {
+    const isSelected = current.includes(member.id);
+    const btn = document.createElement('div');
+    btn.style.cssText = 'display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:13px;color:#333;' + (isSelected ? 'background:#f0edf6;' : '');
+    btn.innerHTML = '<span style="width:26px;height:26px;border-radius:50%;background:' + member.color + ';display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:white;">' + member.id + '</span><span style="flex:1;">' + member.name + '</span><span style="font-size:14px;color:' + (isSelected ? '#6B4C9A' : '#ddd') + ';">' + (isSelected ? '✓' : '') + '</span>';
+    btn.addEventListener('mouseenter', function() { if (!isSelected) this.style.background = '#f5f5f5'; });
+    btn.addEventListener('mouseleave', function() { this.style.background = isSelected ? '#f0edf6' : 'none'; });
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const fresh = getAssignments();
+      let list = fresh[key] || [];
+      if (isSelected) {
+        list = list.filter(x => x !== member.id);
+      } else {
+        list.push(member.id);
+      }
+      if (list.length === 0) delete fresh[key];
+      else fresh[key] = list;
+      saveAssignments(fresh);
+      renderAssignDots(wrap, key, list);
+      menu.remove();
+      // Reopen to show updated state
+      setTimeout(() => showAssignMenu(wrap, key), 50);
+    });
+    menu.appendChild(btn);
+  });
+
+  document.body.appendChild(menu);
+  const rect = wrap.getBoundingClientRect();
+  let top = rect.bottom + 6;
+  let left = rect.left - 70;
+  if (top + 350 > window.innerHeight) top = rect.top - 360;
+  if (left < 8) left = 8;
+  if (left + 200 > window.innerWidth) left = window.innerWidth - 208;
+  menu.style.top = top + 'px';
+  menu.style.left = left + 'px';
+
+  setTimeout(() => {
+    document.addEventListener('click', function closeMenu(e) {
+      if (!menu.contains(e.target)) { menu.remove(); document.removeEventListener('click', closeMenu); }
+    });
+  }, 10);
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadFromFirebase();
+  initCheckboxes();
+  startPolling();
+  setStatus('saved');
+});
+</script>
+</body>
+</html>
